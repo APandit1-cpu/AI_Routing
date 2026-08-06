@@ -1,0 +1,434 @@
+prompt,label
+write a python function to sort a list,2
+debug this javascript code for me,2
+implement a binary search tree in c++,2
+write a recursive fibonacci function,2
+fix this sql query that keeps throwing errors,2
+help me optimize this algorithm for speed,2
+write a regex to parse email addresses,2
+explain how pointers work in c,2
+build a rest api with fastapi,2
+write unit tests for my python class,2
+create a bash script to automate backups,2
+how do i implement a hash map from scratch,2
+write a linked list implementation in java,2
+debug why my async function is not awaiting,2
+help me understand big o notation with examples,2
+solve this differential equation for me,0
+what is the integral of x squared,0
+prove that the square root of 2 is irrational,0
+solve this system of linear equations,0
+explain bayes theorem with a worked example,0
+what is the derivative of sin x cos x,0
+help me with this probability problem,0
+calculate the eigenvalues of this matrix,0
+explain gradient descent mathematically,0
+solve this combinatorics problem step by step,0
+write a short story about a lonely astronaut,1
+help me write a poem for my friends birthday,1
+create a product description for my skincare line,1
+write a funny tweet about mondays,1
+help me write a cover letter for a marketing job,1
+rewrite this paragraph to sound more professional,1
+write a children's book about a dragon,1
+give me 10 creative names for my coffee shop,1
+write a movie script opening scene,1
+help me write wedding vows,1
+create engaging instagram captions for my photos,1
+write a blog post about healthy meal prep,1
+help me write a song chorus,1
+create a catchy slogan for my brand,1
+write a thank you note to my mentor,1
+explain the implications of this contract clause,2
+analyze the themes in hamlet,2
+help me think through this ethical dilemma,2
+what are the pros and cons of this business decision,2
+summarize and critique this research paper,2
+help me reason through this logical puzzle,2
+review my essay and give detailed feedback,2
+explain the philosophical concept of free will,2
+analyze the strengths and weaknesses of my argument,2
+help me make a decision between two job offers,2
+what are the long term consequences of this policy,2
+help me think through my startup idea critically,2
+analyze the rhetorical devices in this speech,2
+review my business plan and find gaps,2
+explain the trolley problem and its implications,2
+what are the best places to visit in japan,3
+explain how photosynthesis works,3
+give me a recipe for chicken tikka masala,3
+what are some good books to read this summer,3
+help me plan a week of workouts,3
+what is the history of the roman empire,3
+explain the water cycle to a 10 year old,3
+what movies are similar to inception,3
+help me understand how vaccines work,3
+give me tips for learning a new language,3
+what are some good habits for better sleep,3
+explain the difference between machine learning and ai,3
+help me understand the basics of investing,3
+what are the main causes of world war one,3
+give me ideas for a home office setup,3
+what is the latest news in artificial intelligence,4
+find recent research papers on climate change,4
+what happened in the stock market today,4
+search for recent studies on intermittent fasting,4
+what are the current top programming languages in 2024,4
+find me recent news about the space industry,4
+what are critics saying about this new movie,4
+search for the latest iphone reviews,4
+what recent papers exist on large language models,4
+find current statistics on global renewable energy,4
+what is happening with interest rates right now,4
+search for recent breakthroughs in cancer research,4
+who won the most recent world chess championship,4
+what are the latest developments in quantum computing,4
+find me current data on social media usage trends,4
+write a quicksort implementation in rust,2
+why is my react component re-rendering infinitely,2
+convert this recursive function to an iterative one,2
+explain the difference between a stack and a queue,2
+write a dockerfile for a node.js app,2
+help me set up a ci/cd pipeline with github actions,2
+what's causing this memory leak in my c program,2
+write a sql query to find duplicate rows,2
+implement a trie data structure in python,2
+explain how a hash table handles collisions,2
+write a function to detect cycles in a linked list,2
+help me refactor this spaghetti code into clean functions,2
+what's the time complexity of merge sort and why,2
+write a graphql schema for a blog api,2
+debug this segmentation fault in my c++ code,2
+explain how async/await works under the hood in javascript,2
+write a python decorator that times function execution,2
+help me design a database schema for an e-commerce site,2
+solve this optimization problem using lagrange multipliers,0
+what is the proof for the fundamental theorem of calculus,0
+calculate the standard deviation of this dataset by hand,0
+explain matrix multiplication with a step by step example,0
+solve for the roots of this cubic equation,0
+help me understand markov chains with an example,0
+what's the closed form solution to the fibonacci sequence,0
+prove that there are infinitely many prime numbers,0
+explain the central limit theorem and why it matters,0
+solve this system using gaussian elimination,0
+what is the chain rule and how do i apply it here,0
+help me set up unit testing with pytest and mocks,2
+write a binary search function in java,2
+help me understand pointers and memory allocation in c,2
+write a websocket server in python,2
+explain how garbage collection works in java,2
+help me build a simple neural network from scratch in numpy,2
+write a shell script to automate backups,2
+explain the difference between sql joins,2
+help me debug this null pointer exception,2
+write a function to reverse a linked list,2
+explain how virtual memory and paging work,2
+calculate the eigenvectors of this matrix,0
+help me prove this statement using mathematical induction,0
+solve this differential equation step by step,0
+what's the difference between a b-tree and a binary search tree,2
+write a regular expression to validate phone numbers,2
+write a function that checks if a string is a palindrome,2
+explain how dynamic programming solves the knapsack problem,2
+write a limerick about my cat knocking things off tables,1
+help me brainstorm names for a fantasy kingdom,1
+write a dramatic monologue for a villain in a play,1
+create a tagline for a new sneaker brand,1
+write a bedtime story about a shy dragon,1
+help me write a toast for my sister's wedding,1
+write lyrics for a upbeat summer pop song,1
+create a fun bio for my dating app profile,1
+write an opening line that hooks readers immediately,1
+help me come up with a plot twist for my mystery novel,1
+write a funny roast for my friend's birthday card,1
+create a description for a fantasy tavern in my rpg,1
+write a haiku about the first snow of winter,1
+help me write a eulogy that celebrates a life well lived,1
+write a witty caption for a photo of my messy desk,1
+create character backstories for my d&d campaign,1
+write a persuasive email pitching my podcast idea,1
+help me draft an engagement announcement post,1
+write a short horror story set in an abandoned lighthouse,1
+create a jingle for a local bakery,1
+write dialogue between two old friends reuniting after years,1
+help me write a heartfelt apology letter,1
+write a sci-fi short story about the last library on earth,1
+create punchy headlines for my newsletter,1
+write a graduation speech about embracing uncertainty,1
+write a fairy tale with a twist ending,1
+help me name a fictional coffee shop for my novel,1
+write a break up letter from the perspective of the moon,1
+create a villain origin story for my superhero comic,1
+write a poem about missing someone you used to know,1
+help me draft vows for my wedding ceremony,1
+write a quirky product description for a rubber duck,1
+create a myth explaining why the ocean is salty,1
+write an instagram caption for my vacation photos,1
+help me write a cliffhanger ending for my short story,1
+write a song about growing up in a small town,1
+create a fantasy creature and describe its abilities,1
+write a scene where two rivals become unlikely allies,1
+help me brainstorm a catchy name for my youtube channel,1
+write a poem from the perspective of a raindrop,1
+critique the argument structure in this op-ed,2
+help me think through the tradeoffs of remote vs in-office work,2
+analyze the unreliable narrator technique in this short story,2
+what are the ethical concerns with this ai use case,2
+review this legal disclaimer and flag anything unclear,2
+help me weigh the risks and benefits of this investment,2
+analyze the symbolism in this poem,2
+walk me through the logical fallacies in this argument,2
+help me think through whether to accept this job offer,2
+critique my thesis statement and suggest improvements,2
+analyze the pricing strategy behind this business model,2
+explain the different perspectives on this policy debate,2
+help me reason through this moral dilemma about honesty,2
+review the methodology section of this study for flaws,2
+analyze how the characters' motivations drive this plot,2
+help me think through the pros and cons of moving cities,2
+critique the persuasive techniques used in this speech,2
+explain the philosophical arguments for and against free will,2
+help me evaluate whether this startup idea is viable,2
+analyze the counterarguments i should prepare for in this debate,2
+review this negotiation strategy and point out weaknesses,2
+help me think through the long-term implications of this decision,2
+analyze the reliability of the sources cited in this article,2
+walk me through both sides of this ethical trolley problem variant,2
+critique the structure of my college application essay,2
+help me think through whether this business decision is fair to employees,2
+analyze the unintended consequences of this proposed law,2
+review my argument for logical consistency before i present it,2
+help me evaluate the credibility of this witness testimony,2
+analyze the rhetorical strategy this politician is using,2
+walk me through the ethical implications of gene editing,2
+critique this ad campaign for manipulative tactics,2
+help me reason through a conflict between two close friends,2
+analyze whether this contract clause is fair to both parties,2
+review the strengths and weaknesses of this business plan,2
+explain how vaccines train the immune system,3
+what are the main differences between climate and weather,3
+give me a beginner's guide to composting at home,3
+explain how black holes form,3
+what are some good stretches for lower back pain,3
+explain the basics of how the stock market works,3
+give me tips for meal prepping on a budget,3
+what is the difference between a virus and bacteria,3
+explain how credit scores are calculated,3
+what are the benefits of learning a musical instrument,3
+explain the basics of how airplanes stay in the air,3
+give me a simple explanation of blockchain technology,3
+what are the stages of sleep and why do they matter,3
+explain how the electoral college works,3
+what are some good beginner hiking trails to look for,3
+explain the difference between renewable and nonrenewable energy,3
+give me an overview of the french revolution,3
+what causes earthquakes,3
+explain how solar panels convert sunlight to electricity,3
+what are some tips for improving public speaking,3
+explain the water cycle and its main stages,3
+what is the difference between a hurricane and a typhoon,3
+give me a beginner's guide to houseplant care,3
+explain how the immune system fights off infections,3
+what's the difference between a crocodile and an alligator,3
+explain how the internet actually sends data between computers,3
+give me an overview of how the human digestive system works,3
+what causes the northern lights,3
+explain the basics of how batteries store energy,3
+what is the difference between weather fronts,3
+give me a beginner's guide to budgeting,3
+explain how muscles grow after exercise,3
+what causes ocean tides,3
+what are the latest updates on the israel gaza ceasefire talks,4
+find recent studies on the effects of ultra processed food,4
+what happened at the most recent fed meeting on interest rates,4
+search for the latest reviews of the newest macbook,4
+what are current experts saying about ai regulation,4
+find recent news on the upcoming spacex launch,4
+what are the latest statistics on remote work adoption,4
+search for recent breakthroughs in battery technology,4
+what is the current state of the israeli tech sector,4
+find the latest data on global inflation rates,4
+what are people saying about the newest marvel movie right now,4
+search for recent developments in gene editing research,4
+what's the latest news on the ongoing trade negotiations,4
+find current rankings for the best colleges this year,4
+what are analysts predicting for the housing market this year,4
+search for the most recent papers on alzheimer's research,4
+what's happening right now with the writers guild negotiations,4
+find recent coverage of the latest olympic qualifying events,4
+what are the newest findings on microplastics in drinking water,4
+search for current opinions on the latest ios update,4
+what is the latest on the ongoing merger negotiations between the companies,4
+find recent articles on the state of the job market this quarter,4
+what are the most recent updates on the wildfire situation,4
+search for the latest expert takes on the upcoming election,4
+what are the current headlines about the tech layoffs,4
+find the most recent earnings report for this company,4
+what's the latest news on the new tariffs,4
+search for recent coverage of the ongoing labor strikes,4
+what are current experts saying about interest rate cuts this year,4
+find recent updates on the newest covid variant,4
+what's happening right now with the government shutdown talks,4
+search for the latest news about the upcoming product launch,4
+what are the most current air quality reports for this region,4
+find recent coverage of the latest championship game results,4
+solve this quadratic equation using the formula,0
+explain how to find the limit of this function,0
+prove that the sum of two even numbers is even,0
+what is the taylor series expansion of e to the x,0
+help me understand hypothesis testing with a worked example,0
+calculate the determinant of this 3x3 matrix,0
+explain how conditional probability works with an example,0
+solve this word problem using algebra,0
+what is l'hopital's rule and when do i use it,0
+help me understand vector spaces and basis,0
+explain how to complete the square,0
+prove this trigonometric identity,0
+what is the difference between permutations and combinations,0
+help me solve this related rates calculus problem,0
+explain how the normal distribution works,0
+calculate the volume of this solid of revolution,0
+what is a partial derivative and how do i compute one,0
+help me understand null hypothesis significance testing,0
+explain how to find the inverse of a matrix,0
+solve this system of inequalities graphically,0
+what is the pigeonhole principle and how is it used in proofs,0
+help me understand the mean value theorem,0
+explain how convergence tests work for infinite series,0
+calculate the confidence interval for this sample,0
+what's trending on twitter right now,5
+give me a hot take on the latest tech drama,5
+what are people arguing about online today,5
+summarize the discourse around this viral post,5
+what's the funniest meme going around this week,5
+give me a casual rundown of what's happening in gaming right now,5
+what do people think about this celebrity's latest tweet,5
+explain this internet trend to me like i've been offline,5
+what's the vibe on social media about this news story,5
+give me a witty take on why everyone's mad about this,5
+what's blowing up online right now,5
+roast this bad take i saw on twitter,5
+what are streamers talking about this week,5
+give me the tea on this celebrity beef,5
+what's the internet's reaction to this announcement,5
+explain why this hashtag is trending,5
+"give me a quick, no-nonsense take on this controversy",5
+what are people saying about this on reddit right now,5
+what's the current meme format everyone's using,5
+give me your unfiltered opinion on this trending topic,5
+what's the latest drama in the tech twitter world,5
+summarize what's happening with this viral video,5
+what are gamers mad about this week,5
+give me a punchy one-liner reacting to this news,5
+what's the general mood online about this event,5
+explain this online controversy in plain terms,5
+what are people joking about regarding this news story,5
+give me a snarky take on this corporate announcement,5
+what's currently blowing up on youtube,5
+what's the general sentiment about this on social media,5
+summarize this entire 300 page report for me,6
+read through this whole contract and pull out the key obligations,6
+digest this long research paper and give me the main findings,6
+go through this entire transcript and summarize the key points,6
+help me find every mention of budget across this long document,6
+summarize this entire book chapter by chapter,6
+read this long email thread and tell me what was decided,6
+go through this huge codebase's documentation and summarize it,6
+summarize this multi-hundred page legal filing,6
+read through this whole meeting transcript and extract action items,6
+digest this long academic paper and explain the methodology,6
+summarize this entire novel manuscript,6
+go through this long chat log and summarize what happened,6
+read this entire policy document and summarize the changes,6
+help me find inconsistencies across this 200 page report,6
+summarize this whole quarterly earnings call transcript,6
+digest this massive spreadsheet of notes into a short summary,6
+read through this entire thesis and summarize each chapter,6
+summarize this long court filing in plain language,6
+go through this huge documentation site and summarize the key apis,6
+read this entire long form article and give me the highlights,6
+summarize this whole interview transcript,6
+digest this long compliance document into bullet points,6
+go through this entire research corpus and summarize common themes,6
+summarize this long book across all its chapters at once,6
+help me cross reference this long document with another long document,6
+read through this entire codebase and summarize the architecture,6
+summarize this whole podcast transcript,6
+digest this lengthy government report into key takeaways,6
+read this massive pdf and summarize each section,6
+translate this paragraph into mandarin,7
+help me write this email in both english and spanish,7
+translate this poem into french while keeping the rhyme,7
+what's the correct way to say this phrase in japanese,7
+help me translate this document from german to english,7
+translate this menu into korean,7
+how do i say this idiom in italian,7
+translate this technical manual into portuguese,7
+help me write a bilingual instagram caption in english and french,7
+translate this contract clause into mandarin accurately,7
+what's the japanese equivalent of this english expression,7
+help me translate this speech into spanish,7
+translate this children's book into french,7
+how would this sentence be phrased in korean,7
+translate this business proposal into german,7
+help me write subtitles in spanish for this video script,7
+translate this legal disclaimer into mandarin chinese,7
+what's the best way to translate this pun into another language,7
+help me translate this product description into multiple languages,7
+translate this formal letter into japanese,7
+how do you say this phrase politely in korean,7
+translate this song lyric into italian while keeping the meaning,7
+help me localize this app's text into french and german,7
+translate this recipe into spanish,7
+what's the mandarin translation for this technical term,7
+help me translate this academic abstract into english,7
+translate this greeting card message into french,7
+how would a native korean speaker phrase this sentence,7
+translate this news article summary into german,7
+help me write this text in both english and mandarin side by side,7
+what's everyone talking about on x right now,5
+give me a blunt opinion on this trending news story,5
+what's the current running joke online about this topic,5
+summarize the twitter reaction to this event,5
+what are people roasting online today,5
+give me a quick casual reaction to this announcement,5
+what's the internet consensus on this hot topic,5
+what meme are people using to react to this news,5
+"give me your honest, unfiltered take on this situation",5
+what's currently the biggest online controversy,5
+explain why people are mad about this on social media,5
+what's the latest thing going viral right now,5
+give me a sarcastic take on this trending story,5
+what are people saying about this celebrity right now,5
+summarize the online chaos around this launch,5
+summarize this entire user manual for me,6
+go through this whole research dataset description and summarize it,6
+read this long onboarding document and summarize the key steps,6
+summarize this entire annual report in a few paragraphs,6
+digest this long forum thread and tell me the consensus,6
+read through this whole design spec and summarize the requirements,6
+summarize this lengthy insurance policy document,6
+go through this entire syllabus and summarize what's covered,6
+read this long white paper and summarize the argument,6
+summarize this entire product requirements document,6
+digest this huge log file and summarize the errors,6
+read through this whole grant proposal and summarize it,6
+summarize this long historical archive text,6
+go through this entire employee handbook and summarize the policies,6
+read this massive research literature review and summarize the gaps,6
+translate this customer support message into spanish,7
+help me write this cover letter in both english and german,7
+translate this warning label into french,7
+how do i politely decline this in japanese,7
+translate this wedding invitation into korean,7
+help me translate this app store description into multiple languages,7
+translate this safety instructions into mandarin,7
+how would this joke translate into italian,7
+translate this scientific abstract into spanish,7
+help me write this social media post in french and english,7
+translate this employee memo into german,7
+what's the polite korean phrasing for this request,7
+translate this travel itinerary into japanese,7
+help me translate this faq page into mandarin,7
+translate this apology message into french appropriately,7

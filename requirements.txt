@@ -1,0 +1,7 @@
+flask
+torch
+scikit-learn
+pandas
+numpy
+requests
+python-dotenv

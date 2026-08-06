@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Router</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+  :root {
+    --ink: #0B0F19; --panel: #111827; --panel-line: #1F2937;
+    --text: #F9FAFB; --muted: #9CA3AF; --signal: #06B6D4;
+    --signal-dim: rgba(6, 182, 212, 0.15); --warn: #f2b950;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ink); color: var(--text);
+    font-family: 'Inter', sans-serif; min-height: 100vh;
+    display: flex; align-items: flex-start; justify-content: center; padding: 48px 16px;
+  }
+  .console { width: 100%; max-width: 640px; position: relative; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--signal); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .eyebrow::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--signal); box-shadow: 0 0 8px var(--signal);
+  }
+  h1 { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); font-size: 14px; margin: 0 0 32px; line-height: 1.5; }
+  .input-row { display: flex; gap: 10px; margin-bottom: 24px; }
+  input[type=text] {
+    flex: 1; background: var(--panel); border: 1px solid var(--panel-line);
+    border-radius: 8px; padding: 14px 16px; color: var(--text);
+    font-family: 'Inter', sans-serif; font-size: 15px; outline: none;
+    transition: border-color 0.15s ease;
+  }
+  input[type=text]:focus { border-color: var(--signal); }
+  input[type=text]::placeholder { color: var(--muted); }
+  button {
+    background: var(--signal); color: var(--ink); border: none; border-radius: 8px;
+    padding: 0 22px; font-family: 'JetBrains Mono', monospace; font-weight: 700;
+    font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.15s ease;
+  }
+  button:hover { box-shadow: 0 0 20px var(--signal-dim); }
+  button:active { transform: scale(0.97); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  #status { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--warn); min-height: 18px; margin-bottom: 8px; }
+  .result { display: none; background: var(--panel); border: 1px solid var(--panel-line); border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+  .result.visible { display: block; animation: rise 0.3s ease; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .routed-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 6px; }
+  .routed-model { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; color: var(--model-color, var(--signal)); margin-bottom: 22px; }
+  .bar-row { display: grid; grid-template-columns: 14px 90px 1fr 52px; align-items: center; gap: 10px; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .bar-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .bar-name { color: var(--text); }
+  .bar-track { height: 8px; background: var(--ink); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--signal-dim); border-right: 2px solid var(--signal); width: 0%; transition: width 0.5s ease; }
+  .bar-fill.top { border-right: none; }
+  .bar-pct { color: var(--muted); text-align: right; }
+
+  .chat-panel { display: none; background: var(--panel); border: 1px solid var(--panel-line); border-radius: 10px; padding: 24px; }
+  .chat-panel.visible { display: block; animation: rise 0.3s ease; }
+  .chat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .chat-title { font-family: 'JetBrains Mono', monospace; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .chat-title span { color: var(--model-color, var(--signal)); }
+  .thread { display: flex; flex-direction: column; gap: 10px; max-height: 320px; overflow-y: auto; margin-bottom: 14px; padding-right: 4px; }
+  .msg { font-size: 14px; line-height: 1.5; padding: 10px 14px; border-radius: 8px; max-width: 88%; white-space: pre-wrap; }
+  .msg.user { align-self: flex-end; background: var(--signal-dim); color: var(--text); }
+  .msg.model { align-self: flex-start; background: var(--ink); border: 1px solid var(--panel-line); border-left: 3px solid var(--model-color, var(--signal)); color: var(--text); }
+  .msg.pending { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .msg.system {
+    align-self: center; background: transparent; border: 1px dashed var(--panel-line);
+    color: var(--model-color, var(--muted)); font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+    padding: 6px 14px; border-radius: 20px; max-width: none;
+  }
+  .msg.model h1, .msg.model h2, .msg.model h3 { font-size: 15px; margin: 12px 0 6px; color: var(--model-color, var(--signal)); }
+  .msg.model p { margin: 0 0 10px; }
+  .msg.model ul, .msg.model ol { margin: 0 0 10px; padding-left: 20px; }
+  .msg.model code { background: var(--ink); padding: 2px 5px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .msg.model pre { background: var(--ink); padding: 10px; border-radius: 6px; overflow-x: auto; }
+  .msg.model pre code { background: none; padding: 0; }
+  .msg.model strong { color: var(--text); }
+  .msg.model hr { border: none; border-top: 1px solid var(--panel-line); margin: 12px 0; }
+  .hint { margin-top: 24px; font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  .settings-btn { position: absolute; top: 0; right: 0; background: transparent; border: 1px solid var(--panel-line); color: var(--muted); padding: 8px 14px; font-size: 11px; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 100; padding: 16px; }
+  .modal-overlay.visible { display: flex; }
+  .modal-box { background: var(--panel); border: 1px solid var(--panel-line); border-radius: 10px; padding: 24px; width: 100%; max-width: 480px; max-height: 80vh; overflow-y: auto; position: relative; }
+  .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 4px 8px; }
+  .tab-row { display: flex; gap: 4px; margin-bottom: 18px; border-bottom: 1px solid var(--panel-line); flex-wrap: wrap; }
+  .tab-btn { background: transparent; border: none; color: var(--muted); padding: 8px 4px; margin-right: 20px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 2px solid transparent; border-radius: 0; box-shadow: none; }
+  .tab-btn.active { color: var(--signal); border-bottom-color: var(--signal); }
+  .model-row { border: 1px solid var(--panel-line); border-radius: 8px; padding: 12px; margin-bottom: 10px; border-left: 3px solid var(--row-color, var(--panel-line)); }
+  .model-row-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .model-row-name { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--row-color, var(--text)); }
+  .source-toggle { display: flex; gap: 4px; }
+  .source-toggle button { padding: 4px 10px; font-size: 10px; background: var(--panel-line); color: var(--muted); }
+  .source-toggle button.active { background: var(--signal); color: var(--ink); }
+  .source-toggle button:disabled { opacity: 0.3; cursor: not-allowed; }
+  .model-row select { width: 100%; background: var(--ink); border: 1px solid var(--panel-line); color: var(--text); padding: 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; margin-bottom: 8px; }
+  .opencode-model-chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; background: var(--ink); border: 1px solid var(--panel-line); border-radius: 6px; padding: 4px 8px; margin: 3px 4px 0 0; color: var(--text); }
+</style>
+</head>
+<body>
+  <div class="console">
+    <button id="settings-btn" class="settings-btn">Settings</button>
+
+    <div class="eyebrow">prompt router / live</div>
+    <h1>Where should this go?</h1>
+    <p class="sub">Type a prompt below. A small trained classifier reads it and routes it to the model best suited for that kind of question -- and keeps re-routing every follow-up to whichever model fits best, so you're never stuck on an expensive model for a trivial question.</p>
+
+    <div class="input-row">
+      <input type="text" id="prompt" placeholder="e.g. debug this python function" autocomplete="off">
+      <button id="route-btn">Route</button>
+    </div>
+    <div id="status"></div>
+
+    <div class="result" id="result">
+      <div class="routed-label">routed to</div>
+      <div class="routed-model" id="routed-model">—</div>
+      <div id="bars"></div>
+    </div>
+
+    <div class="chat-panel" id="chat-panel">
+      <div class="chat-header">
+        <div class="chat-title">talking to <span id="chat-model-name">—</span></div>
+      </div>
+      <div class="thread" id="thread"></div>
+      <div class="input-row" style="margin-bottom: 0;">
+        <input type="text" id="chat-input" placeholder="Ask a follow-up..." autocomplete="off">
+        <button id="send-btn">Send</button>
+      </div>
+    </div>
+
+    <p class="hint">Backed by a PyTorch classifier trained on TF-IDF + keyword features. Chat replies come from each provider's real API. Every message is re-classified, so the model can change mid-conversation.</p>
+  </div>
+
+  <div class="modal-overlay" id="settings-overlay">
+    <div class="modal-box">
+      <button id="settings-close" class="modal-close">✕</button>
+      <div class="tab-row">
+        <button class="tab-btn active" id="tab-provider-keys">Provider Keys</button>
+        <button class="tab-btn" id="tab-opencode">OpenCode Zen</button>
+      </div>
+
+      <div id="panel-provider-keys">
+        <div id="key-fields"></div>
+        <button id="save-keys-btn" style="margin-top: 10px;">Save Keys</button>
+      </div>
+
+      <div id="panel-opencode" style="display:none;">
+        <div class="chat-title" style="margin-bottom: 10px;">SHARED OPENCODE ZEN KEY</div>
+        <p class="sub" style="margin-bottom: 14px;">One key, used by any model set to "OpenCode" below. Load your account's current free/available models here.</p>
+        <div class="input-row">
+          <input type="text" id="opencode-key-input" placeholder="OpenCode Zen API key" style="font-family:'JetBrains Mono',monospace; font-size:12px;">
+          <button id="load-opencode-models-btn">Load</button>
+        </div>
+        <div id="opencode-status" style="font-size:12px; color: var(--muted); margin: 8px 0;"></div>
+        <div id="opencode-model-list"></div>
+        <button id="save-opencode-key-btn" style="margin-top: 14px;">Save Key</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const MODEL_COLORS = {
+  "DeepSeek": "#4D6BFE",
+  "Claude": "#D97706",
+  "Grok": "#F43F5E",
+  "Kimi": "#8B5CF6",
+  "Gemini": "#3B82F6",
+  "GLM": "#6366F1",
+  "ChatGPT": "#10B981",
+  "Perplexity": "#20808D",
+};
+
+function applyModelColor(modelName) {
+  const color = MODEL_COLORS[modelName] || null;
+  if (color) {
+    document.documentElement.style.setProperty('--model-color', color);
+  } else {
+    document.documentElement.style.removeProperty('--model-color');
+  }
+}
+
+const promptInput = document.getElementById('prompt');
+const routeBtn = document.getElementById('route-btn');
+const statusEl = document.getElementById('status');
+const resultEl = document.getElementById('result');
+const routedModelEl = document.getElementById('routed-model');
+const barsEl = document.getElementById('bars');
+
+const chatPanel = document.getElementById('chat-panel');
+const chatModelNameEl = document.getElementById('chat-model-name');
+const threadEl = document.getElementById('thread');
+const chatInput = document.getElementById('chat-input');
+const sendBtn = document.getElementById('send-btn');
+
+const MODEL_LIST = ["Gemini", "Claude", "ChatGPT", "DeepSeek", "Perplexity", "Grok", "Kimi", "GLM"];
+let providerSpecs = {};
+let keyStatus = {};
+let providerSettings = JSON.parse(localStorage.getItem('providerSettings') || '{}');
+let opencodeKey = localStorage.getItem('opencodeKey') || '';
+
+const settingsBtn = document.getElementById('settings-btn');
+const settingsOverlay = document.getElementById('settings-overlay');
+const settingsClose = document.getElementById('settings-close');
+const keyFieldsEl = document.getElementById('key-fields');
+const saveKeysBtn = document.getElementById('save-keys-btn');
+
+const tabProviderKeys = document.getElementById('tab-provider-keys');
+const tabOpencode = document.getElementById('tab-opencode');
+const panelProviderKeys = document.getElementById('panel-provider-keys');
+const panelOpencode = document.getElementById('panel-opencode');
+const opencodeKeyInput = document.getElementById('opencode-key-input');
+const loadOpencodeBtn = document.getElementById('load-opencode-models-btn');
+const opencodeStatusEl = document.getElementById('opencode-status');
+const opencodeModelListEl = document.getElementById('opencode-model-list');
+const saveOpencodeKeyBtn = document.getElementById('save-opencode-key-btn');
+
+function getSetting(model) {
+  const spec = providerSpecs[model];
+  const defaults = { source: 'regular', submodel: spec ? spec.default_submodel : '', key: '' };
+  return { ...defaults, ...(providerSettings[model] || {}) };
+}
+
+function submodelLabel(model) {
+  const spec = providerSpecs[model];
+  if (!spec) return '';
+  const setting = getSetting(model);
+  const list = (setting.source === 'opencode' && spec.opencode) ? spec.opencode.submodels : spec.submodels;
+  const match = list.find(m => m.id === setting.submodel);
+  return match ? match.label : '';
+}
+
+function hasKey(modelName) {
+  const setting = getSetting(modelName);
+  if (setting.source === 'opencode') return !!opencodeKey || !!(keyStatus[modelName] && keyStatus[modelName].opencode);
+  return !!setting.key || !!(keyStatus[modelName] && keyStatus[modelName].regular);
+}
+
+function renderKeyFields() {
+  keyFieldsEl.innerHTML = MODEL_LIST.map(name => {
+    const spec = providerSpecs[name];
+    if (!spec) return '';
+    const setting = getSetting(name);
+    const hasOpencode = !!spec.opencode;
+    const submodelList = (setting.source === 'opencode' && spec.opencode) ? spec.opencode.submodels : spec.submodels;
+    const rowColor = MODEL_COLORS[name] || '';
+
+    return `
+      <div class="model-row" data-model="${name}" style="${rowColor ? `--row-color: ${rowColor};` : ''}">
+        <div class="model-row-header">
+          <div class="model-row-name">${name}</div>
+          <div class="source-toggle">
+            <button type="button" class="src-btn ${setting.source === 'regular' ? 'active' : ''}" data-src="regular">Regular</button>
+            <button type="button" class="src-btn ${setting.source === 'opencode' ? 'active' : ''}" data-src="opencode" ${hasOpencode ? '' : 'disabled'}>OpenCode</button>
+          </div>
+        </div>
+        <select class="submodel-select">
+          ${submodelList.map(m => `<option value="${m.id}" ${m.id === setting.submodel ? 'selected' : ''}>${m.label}</option>`).join('')}
+        </select>
+        <input type="text" class="key-input" placeholder="${setting.source === 'opencode' ? 'Uses shared OpenCode key from the OpenCode Zen tab' : name + ' API key'}"
+          value="${setting.source === 'opencode' ? '' : (setting.key || '')}"
+          ${setting.source === 'opencode' ? 'disabled' : ''}
+          style="font-family:'JetBrains Mono',monospace; font-size:12px;">
+      </div>`;
+  }).join('');
+
+  keyFieldsEl.querySelectorAll('.model-row').forEach(row => {
+    const model = row.dataset.model;
+    row.querySelectorAll('.src-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        const spec = providerSpecs[model];
+        const list = btn.dataset.src === 'opencode' ? (spec.opencode ? spec.opencode.submodels : null) : spec.submodels;
+        if (!list) return;
+        const setting = getSetting(model);
+        setting.source = btn.dataset.src;
+        setting.submodel = list[0].id;
+        providerSettings[model] = setting;
+        renderKeyFields();
+      });
+    });
+  });
+}
+
+saveKeysBtn.addEventListener('click', () => {
+  keyFieldsEl.querySelectorAll('.model-row').forEach(row => {
+    const model = row.dataset.model;
+    const setting = getSetting(model);
+    const selectEl = row.querySelector('.submodel-select');
+    if (selectEl) setting.submodel = selectEl.value;
+    if (setting.source === 'regular') {
+      const keyEl = row.querySelector('.key-input');
+      if (keyEl) setting.key = keyEl.value.trim();
+    }
+    providerSettings[model] = setting;
+  });
+  localStorage.setItem('providerSettings', JSON.stringify(providerSettings));
+  settingsOverlay.classList.remove('visible');
+});
+
+settingsBtn.addEventListener('click', () => settingsOverlay.classList.add('visible'));
+settingsClose.addEventListener('click', () => settingsOverlay.classList.remove('visible'));
+settingsOverlay.addEventListener('click', (e) => {
+  if (e.target === settingsOverlay) settingsOverlay.classList.remove('visible');
+});
+
+function switchTab(activeTab, activePanel) {
+  [tabProviderKeys, tabOpencode].forEach(t => t.classList.remove('active'));
+  [panelProviderKeys, panelOpencode].forEach(p => p.style.display = 'none');
+  activeTab.classList.add('active');
+  activePanel.style.display = 'block';
+}
+tabProviderKeys.addEventListener('click', () => switchTab(tabProviderKeys, panelProviderKeys));
+tabOpencode.addEventListener('click', () => switchTab(tabOpencode, panelOpencode));
+
+opencodeKeyInput.value = opencodeKey;
+
+loadOpencodeBtn.addEventListener('click', async () => {
+  const key = opencodeKeyInput.value.trim();
+  if (!key) { opencodeStatusEl.textContent = 'Enter a key first.'; return; }
+  opencodeStatusEl.textContent = 'Loading available models...';
+  opencodeModelListEl.innerHTML = '';
+  try {
+    const res = await fetch('/opencode_models', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ api_key: key })
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      opencodeStatusEl.textContent = data.error || 'Could not load models -- check your key.';
+      return;
+    }
+    const ids = (data.data || []).map(m => m.id);
+    opencodeStatusEl.textContent = `${ids.length} models currently available on your account:`;
+    opencodeModelListEl.innerHTML = ids.map(id => `<span class="opencode-model-chip">${id}</span>`).join('');
+  } catch (err) {
+    opencodeStatusEl.textContent = 'Could not reach OpenCode Zen.';
+  }
+});
+
+saveOpencodeKeyBtn.addEventListener('click', () => {
+  opencodeKey = opencodeKeyInput.value.trim();
+  localStorage.setItem('opencodeKey', opencodeKey);
+  opencodeStatusEl.textContent = 'Saved.';
+});
+
+fetch('/provider_specs').then(r => r.json()).then(specs => {
+  providerSpecs = specs;
+  return fetch('/key_status');
+}).then(r => r.json()).then(status => {
+  keyStatus = status;
+  renderKeyFields();
+}).catch(() => {});
+
+let currentModel = null;
+
+async function route() {
+  const text = promptInput.value.trim();
+  if (!text) { statusEl.textContent = 'Enter a prompt first.'; return; }
+
+  routeBtn.disabled = true;
+  statusEl.textContent = 'routing...';
+  resultEl.classList.remove('visible');
+  chatPanel.classList.remove('visible');
+  threadEl.innerHTML = '';
+
+  try {
+    const res = await fetch('/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: text })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      statusEl.textContent = data.error || 'Something went wrong.';
+      routeBtn.disabled = false;
+      return;
+    }
+
+    statusEl.textContent = '';
+    routedModelEl.textContent = data.best_model;
+
+    const entries = Object.entries(data.scores).sort((a, b) => b[1] - a[1]);
+    const topModel = entries[0][0];
+
+    barsEl.innerHTML = entries.map(([name, score]) => {
+      const pct = (score * 100).toFixed(1);
+      const isTop = name === topModel ? 'top' : '';
+      const dotColor = MODEL_COLORS[name] || 'var(--muted)';
+      const fillColor = isTop ? (MODEL_COLORS[name] || 'var(--signal)') : 'var(--signal-dim)';
+      return `
+        <div class="bar-row">
+          <div class="bar-dot" style="background:${dotColor};"></div>
+          <div class="bar-name">${name}</div>
+          <div class="bar-track"><div class="bar-fill ${isTop}" style="width: ${pct}%; background:${fillColor};"></div></div>
+          <div class="bar-pct">${pct}%</div>
+        </div>`;
+    }).join('');
+
+    resultEl.classList.add('visible');
+
+    currentModel = data.best_model;
+    applyModelColor(currentModel);
+    chatModelNameEl.textContent = currentModel;
+    chatPanel.classList.add('visible');
+    await sendMessage(text, true);
+  } catch (err) {
+    statusEl.textContent = 'Could not reach the server.';
+  } finally {
+    routeBtn.disabled = false;
+  }
+}
+
+function appendMessage(role, text) {
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+
+  if (role === 'model') {
+    div.innerHTML = marked.parse(text);
+    renderMathInElement(div, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false }
+      ]
+    });
+  } else {
+    div.textContent = text;
+  }
+
+  threadEl.appendChild(div);
+  threadEl.scrollTop = threadEl.scrollHeight;
+  return div;
+}
+
+async function sendMessage(overrideText, isInitialRoute) {
+  const text = (overrideText !== undefined ? overrideText : chatInput.value).trim();
+  if (!text || !currentModel) return;
+
+  appendMessage('user', text);
+  chatInput.value = '';
+  sendBtn.disabled = true;
+
+  // Re-classify every follow-up (skip on the very first message -- route() already did it)
+  if (!isInitialRoute) {
+    try {
+      const pRes = await fetch('/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: text })
+      });
+      const pData = await pRes.json();
+      if (pRes.ok && pData.best_model && pData.best_model !== currentModel && hasKey(pData.best_model)) {
+        currentModel = pData.best_model;
+        applyModelColor(currentModel);
+        chatModelNameEl.textContent = currentModel;
+        const label = submodelLabel(currentModel);
+        appendMessage('system', `Rerouting to ${currentModel}${label ? ' · ' + label : ''}`);
+      }
+    } catch (err) {
+      // if the re-classification fails, just continue with the current model
+    }
+  }
+
+  const pending = appendMessage('pending', `${currentModel} is thinking...`);
+
+  try {
+    const setting = getSetting(currentModel);
+    const activeKey = setting.source === 'opencode' ? opencodeKey : setting.key;
+    const res = await fetch('/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: currentModel,
+        message: text,
+        api_key: activeKey || null,
+        submodel: setting.submodel,
+        source: setting.source
+      })
+    });
+    const data = await res.json();
+    pending.remove();
+
+    if (!res.ok) {
+      appendMessage('model', data.error || 'Something went wrong.');
+      return;
+    }
+    appendMessage('model', data.reply);
+  } catch (err) {
+    pending.remove();
+    appendMessage('model', 'Could not reach the server.');
+  } finally {
+    sendBtn.disabled = false;
+  }
+}
+
+routeBtn.addEventListener('click', route);
+promptInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') route(); });
+sendBtn.addEventListener('click', () => sendMessage());
+chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
+</script>
+</body>
+</html>

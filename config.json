@@ -1,0 +1,1 @@
+{"input_size": 505, "vocab_size": 500, "num_keyword_features": 5, "num_models": 5, "model_names": {"0": "DeepSeek", "1": "ChatGPT", "2": "Claude", "3": "Gemini", "4": "Perplexity"}, "temperature": 1.8}
