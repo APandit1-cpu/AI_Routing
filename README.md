@@ -4,7 +4,7 @@ model in a chat within the app, provided to user has placed their API key in the
 
 Users may enter their API keys and corresponding models (ex: Claude Sonnet 4.6) in order to access chats to those models. 
 The application also supports OpenCode Zen API keys. Keys are stored to the browser only for privacy purposes. 
-The entire application is completely free standalone. Users just have to pay for their API keys.
+The entire application is completely FREE standalone. Users just have to pay for their API keys.
 
 Currently, we offer the following models, and plan to add more in the future, provided users have API keys to access them:
 - Gemini
