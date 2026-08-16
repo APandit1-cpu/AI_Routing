@@ -1,3 +1,5 @@
+AI Router
+
 This application's purpose is to determine the best model to answer a user's simple or complex question, with a variety of models, 
 both free and paid. When the app has determined the best model to be used for the user's prompt, it will then proceed to open up that
 model in a chat within the app, provided to user has placed their API key in the settings.
