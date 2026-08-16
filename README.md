@@ -29,13 +29,34 @@ cd AI_Routing
 
 ### Prerequisites
 
-- Python 3.10+ (with `pip`)
+- [uv](https://docs.astral.sh/uv/) (fast Python package manager)
+- Python 3.10+ (uv can install/manage Python for you)
 - The repo already includes the trained artifacts (`model.pt`, `vectorizer.pkl`, `trigger_words.json`, `config.json`), so no training is required to run the app.
 
-Install the dependencies:
+If you don't have `uv` yet, install it with:
 
 ```bash
-pip install -r requirements.txt
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows (PowerShell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+### Create a Virtual Environment & Install Dependencies
+
+```bash
+# Create a virtual environment named .venv (Python 3.10+)
+uv venv
+
+# Activate it
+# macOS / Linux:
+source .venv/bin/activate
+# Windows (PowerShell):
+.venv\Scripts\Activate.ps1
+
+# Install dependencies
+uv pip install -r requirements.txt
 ```
 
 ### API Keys (optional but recommended)
@@ -58,6 +79,12 @@ OPENCODE_API_KEY=...       # OpenCode Zen (DeepSeek, Grok, Kimi, GLM)
 
 ```bash
 python app.py
+```
+
+Or, without activating the venv, run directly with:
+
+```bash
+uv run app.py
 ```
 
 Then open http://localhost:5050 in your browser.
