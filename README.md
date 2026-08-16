@@ -18,3 +18,12 @@ Currently, we offer the following models, and plan to add more in the future, pr
 - Perplexity
 - Gemini
 
+How to start 
+
+-- checkout 
+
+-- prerequisites
+
+-- command to start 
+
+--screenshots
