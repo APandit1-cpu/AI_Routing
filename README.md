@@ -18,6 +18,10 @@ Currently, we offer the following models, and plan to add more in the future, pr
 - Perplexity
 - Gemini
 
+## Hosted App
+
+A live hosted instance is available at: https://ai.coinagg.com/
+
 ## How to Start
 
 ### Checkout
